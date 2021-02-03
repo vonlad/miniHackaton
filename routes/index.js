@@ -2,8 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var uid2 = require('uid2')
-var SHA256 = require('crypto-js/sha256')
-var encBase64 = require('crypto-js/enc-base64')
+var bcrypt = require('bcrypt');
 
 var userModel = require('../models/users')
 
@@ -33,13 +32,12 @@ router.post('/sign-up', async function(req,res,next){
 
   if(error.length == 0){
 
-    var salt = uid2(32)
+    var hash = bcrypt.hashSync(req.body.passwordFromFront, 10);
     var newUser = new userModel({
       username: req.body.usernameFromFront,
       email: req.body.emailFromFront,
-      password: SHA256(req.body.passwordFromFront+salt).toString(encBase64),
+      password: hash,
       token: uid2(32),
-      salt: salt,
     })
   
     saveUser = await newUser.save()
@@ -75,9 +73,7 @@ router.post('/sign-in', async function(req,res,next){
   
     
     if(user){
-      const passwordEncrypt = SHA256(req.body.passwordFromFront + user.salt).toString(encBase64)
-
-      if(passwordEncrypt == user.password){
+      if(bcrypt.compareSync(req.body.passwordFromFront, user.password)){
         result = true
         token = user.token
       } else {
