@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { useParams } from 'react-router-dom';
 import './App.css';
 import { Card, Icon, Modal} from 'antd';
 import Nav from './Nav'
@@ -14,9 +15,11 @@ function ScreenArticlesBySource(props) {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
 
+  var { id } = useParams();
+
   useEffect(() => {
     const findArticles = async() => {
-      const data = await fetch(`https://newsapi.org/v2/top-headlines?sources=${props.match.params.id}&apiKey=189771adbd2f40d4a27117edd90ff089`)
+      const data = await fetch(`https://newsapi.org/v2/top-headlines?sources=${id}&apiKey=b32c8b844d1243b1a7998d8228910f50`)
       const body = await data.json()
       console.log(body)
       setArticleList(body.articles) 
@@ -85,7 +88,7 @@ function ScreenArticlesBySource(props) {
                   onOk={handleOk}
                   onCancel={handleCancel}
                 >
-                  <p>{title}</p>
+                  <p>{content}</p>
                 </Modal>
 
               </div>
