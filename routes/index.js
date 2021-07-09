@@ -67,7 +67,7 @@ router.post('/sign-in', async function(req,res,next){
   }
 
   if(error.length == 0){
-    const user = await userModel.findOne({
+    user = await userModel.findOne({
       email: req.body.emailFromFront,
     })
   
