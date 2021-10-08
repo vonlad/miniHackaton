@@ -92,7 +92,6 @@ router.post('/sign-in', async function (req, res, next) {
 
   res.json({ result, user, error, token })
 
-
 })
 
 router.post('/saveuserwishlist', async function (req, res, next) {
@@ -139,5 +138,30 @@ router.post('/saveuserwishlist', async function (req, res, next) {
 
   res.json({ result, error })
 })
+
+router.get('/userwishlist/:token', async function (req, res, next) {
+
+  var error = []
+  var wishList = [];
+  var result = false;
+
+  let user = await userModel.findOne({ token: req.params.token }).populate('wishlist');
+
+  if (user) {
+    result = true;
+    wishList = user.wishlist;
+
+  } else {
+
+    error.push("pas de user dans base de donnée");
+
+  }
+
+  res.json({ result, error, wishList });
+  //dans le front : /userwishlist/qsdfvrqeYUEhfgsèd§_
+
+});
+
+
 
 module.exports = router;
