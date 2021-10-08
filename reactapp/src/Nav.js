@@ -1,23 +1,35 @@
-import React from 'react';
-import {Link} from 'react-router-dom'
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom'
 import './App.css';
-import {Menu, Icon} from 'antd';
-import {connect} from 'react-redux'
+import { Menu, Icon } from 'antd';
+import { connect } from 'react-redux'
 
 
 function Nav(props) {
 
-  var addWishlistToUser = async () => {
-    await fetch('/saveuserwishlist', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({token: props.myToken, wishList: props.myArticles})
+  useEffect(() => {
+    return async () => {
+      console.log(props.myToken, props.myArticles)
+      console.log('Destruction de la nav');
+      await fetch('/saveuserwishlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: props.myToken, wishList: props.myArticles })
       });
-  }
+    }
+  });
+
+  // var addWishlistToUser = async () => {
+  //   await fetch('/saveuserwishlist', {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({ token: props.myToken, wishList: props.myArticles })
+  //   });
+  // }
 
   return (
     <nav >
-      <Menu style={{textAlign: 'center'}} mode="horizontal" theme="dark">
+      <Menu style={{ textAlign: 'center' }} mode="horizontal" theme="dark">
 
         <Menu.Item key="mail">
           <Link to="/screensource">
@@ -34,7 +46,9 @@ function Nav(props) {
         </Menu.Item>
 
         <Menu.Item key="app">
-          <Link to="/" onClick={() => addWishlistToUser()}>
+          <Link to="/"
+          // onClick={() => addWishlistToUser()}
+          >
             <Icon type="logout" />
             Logout
           </Link>
@@ -45,8 +59,8 @@ function Nav(props) {
   );
 }
 
-function mapStateToProps(state){
-  return {myArticles: state.wishList, myToken: state.token}
+function mapStateToProps(state) {
+  return { myArticles: state.wishList, myToken: state.token }
 }
 
 export default connect(
