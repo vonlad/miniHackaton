@@ -7,8 +7,12 @@ import {connect} from 'react-redux'
 
 function Nav(props) {
 
-  var addWishlistToUser = () => {
-    
+  var addWishlistToUser = async () => {
+    await fetch('/saveuserwishlist', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({token: props.myToken, wishList: props.myArticles})
+      });
   }
 
   return (
@@ -42,7 +46,7 @@ function Nav(props) {
 }
 
 function mapStateToProps(state){
-  return {myArticles: state.wishList}
+  return {myArticles: state.wishList, myToken: state.token}
 }
 
 export default connect(

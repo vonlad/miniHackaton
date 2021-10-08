@@ -97,6 +97,8 @@ router.post('/sign-in', async function (req, res, next) {
 
 router.post('/saveuserwishlist', async function (req, res, next) {
 
+  console.log(req.body.token, req.body.wishList[0])
+
   var error = []
   var result = false;
 
