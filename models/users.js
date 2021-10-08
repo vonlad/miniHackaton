@@ -5,6 +5,7 @@ const userSchema = mongoose.Schema({
     email: String,
     password: String,
     token: String,
+    whishlist: [{ type: mongoose.Schema.Types.ObjectId, ref:'articleW' }]
 })
 
 const userModel = mongoose.model('users', userSchema)

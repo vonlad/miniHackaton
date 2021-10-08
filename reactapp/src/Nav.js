@@ -1,9 +1,15 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
 import './App.css';
-import {Menu, Icon} from 'antd'
+import {Menu, Icon} from 'antd';
+import {connect} from 'react-redux'
 
-function Nav() {
+
+function Nav(props) {
+
+  var addWishlistToUser = () => {
+    
+  }
 
   return (
     <nav >
@@ -24,7 +30,7 @@ function Nav() {
         </Menu.Item>
 
         <Menu.Item key="app">
-          <Link to="/">
+          <Link to="/" onClick={() => addWishlistToUser()}>
             <Icon type="logout" />
             Logout
           </Link>
@@ -35,4 +41,11 @@ function Nav() {
   );
 }
 
-export default Nav;
+function mapStateToProps(state){
+  return {myArticles: state.wishList}
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(Nav);

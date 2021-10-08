@@ -53,6 +53,8 @@ router.post('/sign-up', async function(req,res,next){
   res.json({result, saveUser, error, token})
 })
 
+
+
 router.post('/sign-in', async function(req,res,next){
 
   var result = false
@@ -90,6 +92,23 @@ router.post('/sign-in', async function(req,res,next){
   res.json({result, user, error, token})
 
 
+})
+
+router.post('/saveuserwishlist', async function(req,res,next){
+
+  var error = []
+
+    var user = await userModel.findOne({
+      token: req.body.token,
+    })
+
+    if (user) {
+      
+    } else {
+      error.push("pas de user dans base de donnée")
+    }
+
+  res.json({})
 })
 
 module.exports = router;
